@@ -1,11 +1,16 @@
-import { Sequelize } from 'sequelize';
+import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
+dotenv.config();
 
-const db = new Sequelize('heroku_f342d9c2481d6d5', 'babb0e5d93695d', '23002e90', {
-    host: 'us-cdbr-east-06.cleardb.net',
-    dialect: 'mysql',
-    query: { raw: true }
-    // logging: false,
+const host: string = process.env.HOST as string;
+const baseName: string = process.env.DATANAME as string;
+const name: string = process.env.NAME as string;
+const pass: string = process.env.PASS as string;
+
+const db = new Sequelize(baseName, name, pass, {
+  host: host,
+  dialect: "mysql",
+  query: { raw: true },
 });
 
 export default db;
-

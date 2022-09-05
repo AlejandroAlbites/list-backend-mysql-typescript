@@ -137,9 +137,11 @@ export const updateNote = async (req: RequestWithUserId, res: Response): Promise
     try {
         const { id } = req.params
         const { userId }: any = req
+        const data = req.body
         const note: NotesEntry | null = await Note.findByPk(id)
         const user: UserEntry | null = await User.findByPk(userId)
 
+        console.log(data)
         if (!note) {
             throw new Error('Invalid note')
         }
@@ -151,7 +153,6 @@ export const updateNote = async (req: RequestWithUserId, res: Response): Promise
         if (note.userId !== user.id.toString()) {
             throw new Error("Note does not belong to this user");
         }
-
         await Note.update({
             ...req.body,
             text: req.body.text,
@@ -159,14 +160,16 @@ export const updateNote = async (req: RequestWithUserId, res: Response): Promise
             name: req.body.name
         }, {
             where: {
-                id: note.id
+                id: note.id,
             }
         })
+
+        const noteUpdated: NotesEntry | null = await Note.findByPk(id)
 
         res.status(200).json({
             ok: true,
             message: 'Note updated',
-            data: note
+            data: noteUpdated
         })
     } catch (error: any) {
         res.status(404).json({

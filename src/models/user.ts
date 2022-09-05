@@ -7,7 +7,7 @@ export interface UserEntry extends Model {
     name: string,
     email: string,
     password: string,
-    // note: NotesEntry[],
+    avatar: string,
     createdAt: Date | string,
     updatedAt: Date | string,
 }
@@ -22,9 +22,9 @@ const User = db.define<UserEntry>('User', {
     password: {
         type: DataTypes.STRING
     },
-    // note: {
-    //     type: DataTypes.ARRAY
-    // }
+    avatar: {
+        type: DataTypes.STRING
+    },
 });
 
 export default User;
